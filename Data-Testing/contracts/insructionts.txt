@@ -1,0 +1,9 @@
+Jay and Lucy will handle the data testing part of the project. 
+In the Data-Testing folder, there are two folders: contracts and risks. 
+In the contracts folder, you will add atleast 30 pdf files. These are all sorts of contracts that you can find on the internet.
+In the risks folder, there is a spreasheet. Add information on the contracts you found. 
+We need your input on the risks you found in the contracts. 
+We will then compare the AIs results against your input. 
+If the AI fails to see some of the risks you have mentioned then we know we need to improve the code.
+
+

@@ -1,23 +1,21 @@
-# core_logic/llm_analyzer.py
-
 import os
-import openai
 import json
 from dotenv import load_dotenv
+from google import genai
+from lib.prompts import PROMPT
 
-# Load environment variables from .env
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY not found in environment variables!")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY not found in environment variables!")
 
-openai.api_key = OPENAI_API_KEY
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 
 def analyze_document(text, language="english"):
     """
-    Sends the document text to OpenAI LLM for:
+    Sends the document text to Gemini LLM for:
     1. Simplifying legal language
     2. Highlighting high-risk clauses
     3. Summarizing main points
@@ -26,41 +24,22 @@ def analyze_document(text, language="english"):
     Returns:
         dict: {"summary": "...", "risks": [{"clause": "...", "risk": "..."}, ...]}
     """
-    prompt = f"""
-You are a legal contract assistant.
+    prompt = PROMPT
 
-Tasks:
-1. Simplify this contract text in plain language.
-2. Highlight high-risk clauses (hidden fees, late penalties, auto-renewals, forced arbitration, unusual interest triggers).
-3. Summarize the main points.
-4. Return output in JSON with keys:
-   {{
-       "summary": "...",
-       "risks": [
-           {{"clause": "...", "risk": "..."}},
-           ...
-       ]
-   }}
-5. Translate the summary to {language} if needed.
-
-Contract text:
-{text}
-"""
-
-    # Call OpenAI's chat API
     try:
-        response = openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.3,
-            max_tokens=3000
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config={
+                "temperature": 0.3,
+                "max_output_tokens": 3000,
+                "response_mime_type": "application/json",
+            },
         )
-        content = response.choices[0].message.content
+        content = response.text
 
-        # Attempt to parse JSON
         result = json.loads(content)
     except Exception as e:
-        # Fallback if LLM fails or returns invalid JSON
         result = {
             "summary": f"Failed to analyze document: {str(e)}",
             "risks": []

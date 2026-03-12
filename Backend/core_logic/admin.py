@@ -5,13 +5,13 @@ from .models import Contract, RiskCategory, RiskFinding, ContractSummary
 class RiskFindingInline(admin.TabularInline):
     model = RiskFinding
     extra = 0
-    readonly_fields = ('original_text', 'risk_explanation', 'severity_level', 'suggested_alternative')
+    readonly_fields = ('original_text', 'risk_explanation', 'severity_level', 'suggested_alternative', 'page_number')
 
 
 class ContractSummaryInline(admin.StackedInline):
     model = ContractSummary
     extra = 0
-    readonly_fields = ('overall_score', 'executive_summary')
+    readonly_fields = ('overall_score', 'executive_summary', 'verdict')
 
 
 @admin.register(Contract)
@@ -31,7 +31,7 @@ class RiskCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(RiskFinding)
 class RiskFindingAdmin(admin.ModelAdmin):
-    list_display = ('contract', 'category', 'severity_level', 'original_text_preview')
+    list_display = ('contract', 'category', 'severity_level', 'original_text_preview', 'page_number')
     list_filter = ('severity_level', 'category')
     search_fields = ('original_text', 'risk_explanation')
 
@@ -43,4 +43,4 @@ class RiskFindingAdmin(admin.ModelAdmin):
 @admin.register(ContractSummary)
 class ContractSummaryAdmin(admin.ModelAdmin):
     list_display = ('contract', 'overall_score')
-    readonly_fields = ('contract', 'overall_score', 'executive_summary')
+    readonly_fields = ('contract', 'overall_score', 'executive_summary', 'verdict')

@@ -124,6 +124,11 @@ class RiskFinding(models.Model):
         blank=True,
         help_text="What a 'fair' version of this clause would look like (optional)."
     )
+    page_number = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text="The PDF page number (1-indexed) where this clause appears — used by the frontend to scroll and highlight."
+    )
 
     class Meta:
         ordering = ['-severity_level']
@@ -153,6 +158,10 @@ class ContractSummary(models.Model):
     )
     executive_summary = models.TextField(
         help_text="A 2-3 sentence TL;DR of the entire document's risk profile."
+    )
+    verdict = models.TextField(
+        blank=True,
+        help_text="Actionable recommendation, e.g. 'Do not sign until the Arbitration clause is removed.'"
     )
 
     class Meta:

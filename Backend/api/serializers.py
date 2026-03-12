@@ -36,13 +36,14 @@ class RiskFindingSerializer(serializers.ModelSerializer):
             'risk_explanation',
             'severity_level',
             'suggested_alternative',
+            'page_number',
         ]
 
 
 class ContractSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = ContractSummary
-        fields = ['overall_score', 'executive_summary']
+        fields = ['overall_score', 'executive_summary', 'verdict']
 
 
 class ContractResultSerializer(serializers.ModelSerializer):

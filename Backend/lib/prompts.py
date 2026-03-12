@@ -15,19 +15,23 @@ Return your analysis as JSON with this exact structure:
 {{
     "executive_summary": "A 2-3 sentence TL;DR of the document's overall risk profile in {language}",
     "overall_risk_score": <integer from 0 (safe) to 100 (extremely risky)>,
+    "verdict": "A single actionable recommendation for the consumer, e.g. 'Do not sign until the forced arbitration clause is removed.' or 'This contract is relatively fair but watch for the late payment penalty on page 4.'",
     "risk_findings": [
         {{
             "category": "<one of: Hidden Fees, High-Interest Triggers, Late Payment Penalties, Auto-Renewal, Forced Arbitration, Unfavorable Repayment>",
             "original_text": "<exact quote from the document>",
             "risk_explanation": "<plain-language explanation of why this is risky>",
             "severity_level": "<one of: LOW, MEDIUM, HIGH>",
-            "suggested_alternative": "<what a fair version of this clause would look like>"
+            "suggested_alternative": "<what a fair version of this clause would look like>",
+            "page_number": <integer — the PDF page number (1-indexed) where this clause appears>
         }}
     ]
 }}
 
 Rules:
 - original_text MUST be the exact wording from the document, not a paraphrase
+- page_number MUST be the actual page in the PDF where the clause is found (1-indexed)
+- verdict should be specific and actionable, referencing the most critical finding by name
 - Provide at least one finding per category if applicable
 - If the document has no risks for a category, omit that category
 - executive_summary should be in {language}

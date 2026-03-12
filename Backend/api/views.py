@@ -36,6 +36,7 @@ def upload_contract(request):
             contract=contract,
             overall_score=result.get('overall_risk_score', 0),
             executive_summary=result.get('executive_summary', ''),
+            verdict=result.get('verdict', ''),
         )
 
         for finding in result.get('risk_findings', []):
@@ -54,6 +55,7 @@ def upload_contract(request):
                 risk_explanation=finding.get('risk_explanation', ''),
                 severity_level=finding.get('severity_level', 'MEDIUM'),
                 suggested_alternative=finding.get('suggested_alternative', ''),
+                page_number=finding.get('page_number'),
             )
 
         response_serializer = ContractResultSerializer(contract)

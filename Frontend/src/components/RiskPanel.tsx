@@ -1,9 +1,7 @@
 import React from "react"
-import { type ContractAnalysis } from "@/lib/api"
+import { type ContractAnalysis, type RiskFinding } from "@/lib/api"
 import { RiskCard } from "./RiskCard"
 import { ScrollArea } from "@/components/ui/scroll-area"
-
-import { type RiskFinding } from "@/lib/api"
 
 interface RiskPanelProps {
   analysis: ContractAnalysis

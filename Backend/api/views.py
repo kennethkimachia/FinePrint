@@ -1,3 +1,6 @@
+import os
+import tempfile
+
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
@@ -18,18 +21,30 @@ def upload_contract(request):
     uploaded_file = serializer.validated_data['file']
     language = serializer.validated_data.get('language', 'english')
 
+    # Write uploaded file to a temp file in /tmp (Vercel's only writable dir)
+    suffix = os.path.splitext(uploaded_file.name)[1] or '.pdf'
+    tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir='/tmp')
+    try:
+        for chunk in uploaded_file.chunks():
+            tmp_file.write(chunk)
+        tmp_file.close()
+        tmp_path = tmp_file.name
+    except Exception:
+        tmp_file.close()
+        os.unlink(tmp_file.name)
+        raise
+
     contract = Contract.objects.create(
-        file=uploaded_file,
         original_filename=uploaded_file.name,
         status=Contract.Status.PROCESSING,
     )
 
     try:
-        result = analyze_document(contract.file.path, language)
+        result = analyze_document(tmp_path, language)
 
-        # Delete the physical file immediately to prevent indexing/retention
-        if contract.file:
-            contract.file.delete(save=False)
+        # Delete the temp file immediately after analysis
+        os.unlink(tmp_path)
+        tmp_path = None
 
         contract.raw_llm_response = result
         contract.status = Contract.Status.COMPLETED
@@ -66,8 +81,9 @@ def upload_contract(request):
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
     except Exception as e:
-        if contract.file:
-            contract.file.delete(save=False)
+        # Clean up temp file if it still exists
+        if tmp_path and os.path.exists(tmp_path):
+            os.unlink(tmp_path)
         contract.status = Contract.Status.FAILED
         contract.save()
         return Response(

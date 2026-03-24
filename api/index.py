@@ -1,0 +1,1 @@
+from Backend.vercel_app.wsgi import app

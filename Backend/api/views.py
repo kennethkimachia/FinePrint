@@ -27,6 +27,10 @@ def upload_contract(request):
     try:
         result = analyze_document(contract.file.path, language)
 
+        # Delete the physical file immediately to prevent indexing/retention
+        if contract.file:
+            contract.file.delete(save=False)
+
         contract.raw_llm_response = result
         contract.status = Contract.Status.COMPLETED
         contract.processed_at = timezone.now()
@@ -62,6 +66,8 @@ def upload_contract(request):
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
     except Exception as e:
+        if contract.file:
+            contract.file.delete(save=False)
         contract.status = Contract.Status.FAILED
         contract.save()
         return Response(

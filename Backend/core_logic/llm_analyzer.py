@@ -40,7 +40,7 @@ def analyze_document(file_path, language="english"):
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-3-flash-preview",
             contents=[file_part, prompt],
             config={
                 "temperature": 0.3,

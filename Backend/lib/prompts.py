@@ -1,15 +1,18 @@
 def build_prompt(language="english"):
     return f"""You are an expert legal contract analyst specializing in consumer financial protection.
 
-Analyze the uploaded financial document (student loan agreement, credit card contract, mortgage, etc.) and identify ALL high-risk clauses that could harm the consumer.
+Analyze the uploaded document (e.g., student loan, employment contract, lease agreement, artist deal, terms of service) and identify ALL high-risk clauses that could harm the consumer, employee, creator, or tenant.
 
 Focus on these risk categories:
 - Hidden Fees: unexpected charges, annual fees, dormant account fees, early termination fees
-- High-Interest Triggers: conditions that spike the APR, universal default clauses, penalty rates
-- Late Payment Penalties: charges, interest rate hikes, credit score damage from missed payments
-- Auto-Renewal: automatic contract renewal or payment escalation without explicit consent
-- Forced Arbitration: clauses stripping the right to sue, class-action waivers
-- Unfavorable Repayment: restrictive repayment schedules, limited deferment/forbearance options
+- High-Interest & Defaults: Penalty APR after 60 days, universal defaults, loss of promo rates, default based on "belief"
+- Auto-Renewal: automatic contract renewal, 48-hour renewal windows, payment escalation without consent
+- Arbitration & Waivers: Forced arbitration, class-action waivers, negligence waivers
+- IP & Ownership Traps: "Work made for hire", perpetual transfers, 24/7 employer IP trap, AI training/scraping licenses, name/likeness rights, re-recording restrictions, marketing recoupment
+- Extreme Liability Shifts: 100% liability shift to owner, full liability for under-25 drivers, no passenger medical coverage, $750 deductibles
+- Restrictive Covenants & Exit Traps: 2-year global non-competes, "Bad Leaver" traps, book value buybacks, no acceleration on sale
+- Unfair Termination & Cancellation: 90-day cancellation notices, certified mail only, full year's rent due immediately, no duty to mitigate
+- Vague or Unilateral Rights: Zero-notice landlord entry, unlimited revision rounds, voiding of verbal staff promises, no liability for AI-cloned styles, vague "necessary" overtime
 
 Return your analysis as JSON with this exact structure:
 {{
@@ -18,7 +21,7 @@ Return your analysis as JSON with this exact structure:
     "verdict": "A single actionable recommendation for the consumer, e.g. 'Do not sign until the forced arbitration clause is removed.' or 'This contract is relatively fair but watch for the late payment penalty on page 4.'",
     "risk_findings": [
         {{
-            "category": "<one of: Hidden Fees, High-Interest Triggers, Late Payment Penalties, Auto-Renewal, Forced Arbitration, Unfavorable Repayment>",
+            "category": "<one of: Hidden Fees, High-Interest & Defaults, Auto-Renewal, Arbitration & Waivers, IP & Ownership Traps, Extreme Liability Shifts, Restrictive Covenants & Exit Traps, Unfair Termination & Cancellation, Vague or Unilateral Rights>",
             "original_text": "<exact quote from the document>",
             "risk_explanation": "<plain-language explanation of why this is risky>",
             "severity_level": "<one of: LOW, MEDIUM, HIGH>",

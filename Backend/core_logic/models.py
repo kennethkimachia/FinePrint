@@ -23,7 +23,9 @@ class Contract(models.Model):
     )
     file = models.FileField(
         upload_to='contracts/%Y/%m/%d/',
-        help_text="The uploaded PDF or image of the financial document."
+        null=True,
+        blank=True,
+        help_text="The uploaded PDF or image. Physically deleted immediately after processing for privacy."
     )
     original_filename = models.CharField(
         max_length=255,

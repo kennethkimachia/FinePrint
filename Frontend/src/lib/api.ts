@@ -24,7 +24,7 @@ export interface ContractAnalysis {
   risk_findings: RiskFinding[];
 }
 
-const API_BASE_URL = 'http://localhost:8000/api/contracts';
+const API_BASE_URL = '/api/contracts';
 
 export const uploadContract = async (file: File): Promise<ContractAnalysis> => {
   const formData = new FormData();

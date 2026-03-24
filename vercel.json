@@ -6,16 +6,12 @@
       "destination": "Backend/vercel_app/wsgi.py"
     },
     {
-      "source": "/static/(.*)",
-      "destination": "Backend/vercel_app/wsgi.py"
-    },
-    {
       "source": "/(.*)",
       "destination": "/Frontend/$1"
     },
     {
-      "source": "/(.*)",
-      "destination": "/Frontend/index.html"
+      "destination"
+
     }
   ]
 }

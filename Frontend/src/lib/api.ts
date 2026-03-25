@@ -42,12 +42,3 @@ export const uploadContract = async (file: File): Promise<ContractAnalysis> => {
   return response.json();
 };
 
-export const getContractResults = async (id: string): Promise<ContractAnalysis> => {
-  const response = await fetch(`${API_BASE_URL}/${id}/results/`);
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch contract results');
-  }
-
-  return response.json();
-};

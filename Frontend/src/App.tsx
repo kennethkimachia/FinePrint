@@ -33,7 +33,7 @@ export function App() {
     <div className="flex h-screen w-full flex-col overflow-hidden bg-background font-sans text-foreground">
       {/* Header bar */}
       <div className="z-20 flex h-14 shrink-0 items-center justify-between border-b bg-background px-6 shadow-sm">
-        <div className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="rounded-md bg-blue-600 p-1.5 text-white">
             <svg
               className="h-5 w-5"
@@ -52,7 +52,7 @@ export function App() {
           <span className="bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-blue-400 dark:to-indigo-400">
             FinePrint
           </span>
-        </div>
+        </a>
         <div className="max-w-[200px] truncate text-xs font-medium text-muted-foreground">
           {file ? file.name : ""}
         </div>
@@ -79,5 +79,3 @@ export function App() {
     </div>
   )
 }
-
-export default App

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core_logic.models import Contract, RiskFinding, ContractSummary, RiskCategory
+from core_logic.models import Contract, RiskFinding, ContractSummary
 
 
 class ContractUploadSerializer(serializers.Serializer):

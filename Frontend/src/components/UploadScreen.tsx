@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import { useState, useRef, type FC } from "react"
 import { Card } from "@/components/ui/card"
 
 interface UploadScreenProps {
@@ -6,7 +6,7 @@ interface UploadScreenProps {
   isUploading: boolean
 }
 
-export const UploadScreen: React.FC<UploadScreenProps> = ({
+export const UploadScreen: FC<UploadScreenProps> = ({
   onUpload,
   isUploading,
 }) => {
@@ -38,16 +38,17 @@ export const UploadScreen: React.FC<UploadScreenProps> = ({
   }
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-background p-6">
-      <div className="relative w-full max-w-2xl">
+    <div className="flex h-full w-full flex-col overflow-y-auto bg-background p-4 md:p-6">
+      <div className="flex-1 min-h-auto md:min-h-12"></div>
+      <div className="relative mx-auto w-full max-w-2xl shrink-0">
         {/* Decorative background blur */}
         <div className="absolute -inset-1 rounded-3xl bg-primary opacity-20 blur-2xl filter"></div>
 
-        <Card className="relative overflow-hidden rounded-3xl border bg-card/90 p-12 shadow-2xl backdrop-blur-xl">
+        <Card className="relative overflow-hidden rounded-3xl border bg-card/90 p-8 md:p-10 shadow-2xl backdrop-blur-xl">
           <div className="flex flex-col items-center justify-center text-center">
-            <div className="mb-6 rounded-full bg-primary/10 p-4">
+            <div className="mb-4 md:mb-6 rounded-full bg-primary/10 p-3 md:p-4">
               <svg
-                className="h-10 w-10 text-primary"
+                className="h-8 w-8 md:h-10 md:w-10 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -61,16 +62,16 @@ export const UploadScreen: React.FC<UploadScreenProps> = ({
               </svg>
             </div>
 
-            <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
+            <h1 className="mb-2 text-2xl md:text-3xl font-bold tracking-tight text-foreground">
               Analyze your contract
             </h1>
-            <p className="mb-8 max-w-md text-muted-foreground">
+            <p className="mb-6 max-w-md text-sm md:text-base text-muted-foreground">
               Upload your financial document safely. We'll identify predatory
               clauses and highlight the scary stuff using AI.
             </p>
 
             <div
-              className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-10 transition-all duration-200 ease-in-out ${
+              className={`flex w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-8 transition-all duration-200 ease-in-out ${
                 isDragging
                   ? "border-primary bg-primary/10"
                   : "border-border bg-muted/30 hover:border-primary/50 hover:bg-muted"
@@ -122,11 +123,14 @@ export const UploadScreen: React.FC<UploadScreenProps> = ({
             </div>
           </div>
         </Card>
-        
+
         <p className="mt-6 text-center text-xs font-medium text-muted-foreground">
-          Disclaimer: FinePrint uses AI to analyze documents. AI is not always right and might get some things wrong. Do not use this as a substitute for professional legal advice.
+          Disclaimer: FinePrint uses AI to analyze documents. AI is not always
+          right and might get some things wrong. Do not use this as a substitute
+          for professional legal advice.
         </p>
       </div>
+      <div className="flex-1 min-h-auto md:min-h-12"></div>
     </div>
   )
 }

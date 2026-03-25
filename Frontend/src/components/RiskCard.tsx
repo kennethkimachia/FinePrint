@@ -1,4 +1,4 @@
-import React from "react"
+import { type FC } from "react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { type RiskFinding } from "@/lib/api"
@@ -8,7 +8,7 @@ interface RiskCardProps {
   onClick: (finding: RiskFinding) => void
 }
 
-export const RiskCard: React.FC<RiskCardProps> = ({ finding, onClick }) => {
+export const RiskCard: FC<RiskCardProps> = ({ finding, onClick }) => {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case "HIGH":

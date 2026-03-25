@@ -1,4 +1,4 @@
-import React from "react"
+import { type FC } from "react"
 import { type ContractAnalysis, type RiskFinding } from "@/lib/api"
 import { RiskCard } from "./RiskCard"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -8,7 +8,7 @@ interface RiskPanelProps {
   onRiskClick: (finding: RiskFinding) => void
 }
 
-export const RiskPanel: React.FC<RiskPanelProps> = ({
+export const RiskPanel: FC<RiskPanelProps> = ({
   analysis,
   onRiskClick,
 }) => {

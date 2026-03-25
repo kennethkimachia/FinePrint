@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, type FC } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
@@ -15,7 +15,7 @@ interface PdfViewerProps {
   activeFindingEvent?: { finding: RiskFinding; timestamp: number } | null
 }
 
-export const PdfViewer: React.FC<PdfViewerProps> = ({
+export const PdfViewer: FC<PdfViewerProps> = ({
   file,
   activeFindingEvent,
 }) => {

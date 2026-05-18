@@ -10,15 +10,15 @@ export function App() {
   const [analysis, setAnalysis] = useState<ContractAnalysis | null>(null)
   const [activeFindingEvent, setActiveFindingEvent] = useState<{finding: RiskFinding, timestamp: number} | null>(null)
 
-  const handleUpload = async (uploadedFile: File) => {
+  const handleUpload = async (uploadedFile: File, industry: string, additionalContext: string) => {
     setFile(uploadedFile)
     setIsUploading(true)
     try {
-      const result = await uploadContract(uploadedFile)
+      const result = await uploadContract(uploadedFile, industry, additionalContext)
       setAnalysis(result)
-    } catch (error) {
+    } catch (error: any) {
       console.error("Upload failed:", error)
-      alert("Failed to analyze the contract. Please try again.")
+      alert(error.message || "Failed to analyze the contract. Please try again.")
       setFile(null)
     } finally {
       setIsUploading(false)

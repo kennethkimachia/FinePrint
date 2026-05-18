@@ -15,7 +15,7 @@ if not GEMINI_API_KEY:
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 
-def analyze_document(file_path, language="english"):
+def analyze_document(file_path, language="english", industry="general", additional_context=""):
     """
     Sends the raw document file to Gemini 2.0 Flash (multimodal).
     Gemini extracts the text and analyzes it for contract risks.
@@ -23,11 +23,13 @@ def analyze_document(file_path, language="english"):
     Args:
         file_path: Absolute path to the uploaded PDF or image file.
         language: Language for the executive summary output.
+        industry: Industry category for contextual legal analysis.
+        additional_context: Any additional context or specific concerns.
 
     Returns:
         dict with keys: executive_summary, overall_risk_score, risk_findings
     """
-    prompt = build_prompt(language)
+    prompt = build_prompt(language, industry, additional_context)
 
     mime_type, _ = mimetypes.guess_type(file_path)
     if not mime_type:

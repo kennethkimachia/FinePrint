@@ -26,17 +26,29 @@ export interface ContractAnalysis {
 
 const API_BASE_URL = '/api/contracts';
 
-export const uploadContract = async (file: File): Promise<ContractAnalysis> => {
+export const uploadContract = async (
+  file: File,
+  industry: string = 'general',
+  additionalContext: string = ''
+): Promise<ContractAnalysis> => {
   const formData = new FormData();
   formData.append('file', file);
+  formData.append('industry', industry);
+  formData.append('additional_context', additionalContext);
 
   const response = await fetch(`${API_BASE_URL}/upload/`, {
     method: 'POST',
     body: formData,
   });
 
+  if (response.status === 401) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error || 'Unauthorized: API access is strictly restricted.');
+  }
+
   if (!response.ok) {
-    throw new Error('Failed to upload contract');
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error || errData.detail || 'Failed to upload contract');
   }
 
   return response.json();
